@@ -24,6 +24,7 @@ class BaseManager(object):
         'all',
         'put',
         'delete',
+        'email',
         'get_attachments',
         'get_attachment_data',
         'put_attachment_data',
@@ -236,6 +237,14 @@ class BaseManager(object):
         uri_params = self.extra_params.copy()
         uri_params.update(params if params else {})
         return uri, uri_params, 'get', None, headers, True
+
+    def _email(self, id, headers=None, params=None):
+        if self.name != "Invoices":
+            raise XeroNotImplemented
+        uri = '/'.join([self.base_url, self.name, id, "Email"])
+        uri_params = self.extra_params.copy()
+        uri_params.update(params if params else {})
+        return uri, uri_params, 'post', None, headers, True
 
     def _get_attachments(self, id):
         """Retrieve a list of attachments associated with this Xero object."""
